@@ -283,3 +283,24 @@ p:last-child { margin-bottom: 0; }
   .gallery-grid { grid-template-columns: 1fr 1fr; }
   .stats-row { flex-wrap: wrap; gap: 1.25rem; }
 }
+
+/* ─── ERRATA LOGO LETTERS ──────────────────────────── */
+.r-flip {
+  display: inline-block;
+  transform: scaleX(-1);
+  color: var(--off-white);
+}
+.r-red {
+  color: var(--red);
+}
+
+/* ─── JOIN SINGLE COLUMN ───────────────────────────── */
+.join-inner-single {
+  max-width: 600px;
+}
+.join-inner-single .join-list li::before {
+  content: '→';
+  color: var(--red);
+  font-weight: 700;
+  flex-shrink: 0;
+}
