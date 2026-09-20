@@ -328,6 +328,11 @@ p:last-child { margin-bottom: 0; }
 .inner-page-back { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--black); font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
 .inner-page-back a:hover { color: var(--red); }
 
-/* Wordmark spacing: letter-spacing would sit inside the flipped R and land
-   on the wrong side once mirrored, so cancel it and use even margins. */
-.r-flip { letter-spacing: 0; margin: 0 0.025em; }
+/* Wordmark spacing.
+   letter-spacing is added as trailing space INSIDE the flipped letter's box,
+   so mirroring drags it round to the left: the gap before the R doubles and
+   the gap after it disappears. Cancel it inside the box and hand the same
+   amount back as a right margin, which is where it belongs. */
+.nav-logo, .footer-logo { --wordmark-ls: 0.1em; }
+.hero-title { --wordmark-ls: 0.01em; }
+.r-flip { letter-spacing: 0; margin: 0 var(--wordmark-ls, 0) 0 0; }
