@@ -1,0 +1,359 @@
+media:
+  input: images
+  output: /images
+  categories: [image]
+  extensions: [jpg, jpeg, png, gif, webp, svg]
+
+content:
+  - name: home
+    label: Home page
+    type: file
+    path: index.html
+    format: yaml-frontmatter
+    fields:
+      - name: layout
+        type: string
+        hidden: true
+        default: home
+
+      - name: hero
+        label: Top of the page
+        type: object
+        fields:
+          - name: eyebrow
+            label: Small line above the logo
+            type: string
+          - name: subtitle
+            label: Line under the logo
+            type: string
+          - name: primary_cta_label
+            label: Red button text
+            type: string
+          - name: primary_cta_link
+            label: Red button link
+            type: string
+            description: "Use #join, #about etc. for a section of this page, or a full web address."
+          - name: secondary_cta_label
+            label: Outlined button text
+            type: string
+          - name: secondary_cta_link
+            label: Outlined button link
+            type: string
+          - name: right_label
+            label: Red panel — small label
+            type: string
+          - name: slogan
+            label: Red panel — slogan
+            type: text
+            description: Each new line becomes a new line on the page.
+          - name: right_cta_label
+            label: Red panel — button text
+            type: string
+          - name: right_cta_link
+            label: Red panel — button link
+            type: string
+
+      - name: bar_items
+        label: Red strip under the header
+        type: string
+        list: true
+
+      - name: marquee_items
+        label: Yellow scrolling strip
+        type: string
+        list: true
+        description: These repeat across the strip.
+
+      - name: about
+        label: "Section: We Are Errata"
+        type: object
+        fields:
+          - name: label
+            label: Small label
+            type: string
+          - name: heading
+            label: Heading
+            type: text
+            description: Each new line becomes a new line on the page.
+          - name: lead
+            label: Opening sentence (larger text)
+            type: text
+          - name: body
+            label: Main text
+            type: rich-text
+            options:
+              media: false
+          - name: stats
+            label: The three numbers
+            type: object
+            list:
+              collapsible:
+                summary: "{fields.number} — {fields.label}"
+            fields:
+              - name: number
+                label: Number
+                type: string
+              - name: label
+                label: Caption
+                type: string
+          - name: pull_quote
+            label: Pull quote (black panel)
+            type: text
+          - name: definition_term
+            label: Dictionary word
+            type: string
+          - name: definition_body
+            label: Dictionary text
+            type: text
+
+      - name: events
+        label: "Section: Events"
+        type: object
+        fields:
+          - name: label
+            label: Small label
+            type: string
+          - name: heading
+            label: Heading
+            type: string
+          - name: empty_note
+            label: Text shown when there are no events
+            type: text
+
+      - name: edi
+        label: "Section: EDI"
+        type: object
+        fields:
+          - name: label
+            label: Small label
+            type: string
+          - name: heading
+            label: Heading
+            type: text
+          - name: highlight
+            label: Word in the heading to show in red
+            type: string
+          - name: lead
+            label: Opening sentence
+            type: text
+          - name: cards
+            label: Commitment cards
+            type: object
+            list:
+              collapsible:
+                summary: "{fields.title}"
+            fields:
+              - name: title
+                label: Card title
+                type: string
+              - name: text
+                label: Card text
+                type: text
+          - name: footer_note
+            label: Closing line
+            type: text
+
+      - name: gallery
+        label: "Section: Gallery"
+        type: object
+        fields:
+          - name: label
+            label: Small label
+            type: string
+          - name: heading
+            label: Heading
+            type: string
+          - name: intro
+            label: Intro line
+            type: text
+          - name: images
+            label: Photos
+            type: object
+            list:
+              collapsible:
+                summary: "{fields.caption}"
+            fields:
+              - name: image
+                label: Photo
+                type: image
+              - name: caption
+                label: Description of the photo
+                type: string
+                description: Used by screen readers. Keep it short.
+
+      - name: join
+        label: "Section: Sing With Us"
+        type: object
+        fields:
+          - name: label
+            label: Small label
+            type: string
+          - name: heading
+            label: Heading
+            type: text
+          - name: highlight
+            label: Word in the heading to show in red
+            type: string
+          - name: lead
+            label: Opening sentence
+            type: text
+          - name: details
+            label: Details list
+            type: object
+            list:
+              collapsible:
+                summary: "{fields.label}: {fields.value}"
+            fields:
+              - name: label
+                label: Label
+                type: string
+              - name: value
+                label: Detail
+                type: string
+          - name: cta_label
+            label: Button text
+            type: string
+          - name: cta_link
+            label: Button link
+            type: string
+
+      - name: contact
+        label: "Section: Get In Touch"
+        type: object
+        fields:
+          - name: label
+            label: Small label
+            type: string
+          - name: heading
+            label: Heading
+            type: string
+          - name: intro
+            label: Intro text
+            type: text
+          - name: booking_heading
+            label: Red panel — heading
+            type: string
+          - name: booking_text
+            label: Red panel — text
+            type: text
+          - name: booking_cta_label
+            label: Red panel — button text
+            type: string
+
+  - name: events
+    label: Events
+    type: collection
+    path: _events
+    format: yaml-frontmatter
+    filename: "{fields.date}-{primary}.md"
+    view:
+      primary: title
+      fields: [title, date, venue]
+      sort: [date, title]
+      default:
+        sort: date
+        order: asc
+    fields:
+      - name: title
+        label: Event name
+        type: string
+        required: true
+      - name: date
+        label: Date
+        type: date
+        required: true
+        description: Events disappear from the website by themselves the day after this date.
+      - name: time
+        label: Time
+        type: string
+      - name: venue
+        label: Venue
+        type: string
+      - name: tag
+        label: Small yellow label
+        type: string
+        description: e.g. Concert, Workshop, Collaboration
+      - name: summary
+        label: One-line description
+        type: text
+      - name: link
+        label: Link (tickets, more info)
+        type: string
+      - name: link_label
+        label: Link text
+        type: string
+      - name: featured
+        label: Show on a black background
+        type: boolean
+        default: false
+
+  - name: pages
+    label: Pages
+    type: collection
+    path: pages
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    exclude: [README.md]
+    view:
+      primary: title
+      fields: [title, nav]
+    fields:
+      - name: title
+        label: Page title
+        type: string
+        required: true
+      - name: eyebrow
+        label: Small label above the title
+        type: string
+      - name: intro
+        label: Intro line (larger text)
+        type: text
+      - name: image
+        label: Picture at the top
+        type: image
+      - name: image_caption
+        label: Picture caption
+        type: string
+      - name: nav
+        label: Show in the menu
+        type: boolean
+        default: false
+      - name: nav_label
+        label: Menu wording (if shorter than the title)
+        type: string
+      - name: nav_order
+        label: Position in the menu
+        type: number
+        default: 10
+      - name: body
+        label: Page text
+        type: rich-text
+
+  - name: settings
+    label: Site settings
+    type: file
+    path: _data/site.yml
+    format: yaml
+    fields:
+      - name: title
+        label: Choir name
+        type: string
+      - name: tagline
+        label: Tagline
+        type: string
+      - name: description
+        label: Description for search engines
+        type: text
+      - name: email
+        label: Contact email
+        type: string
+      - name: instagram_handle
+        label: Instagram handle
+        type: string
+        description: Without the @
+      - name: instagram_url
+        label: Instagram link
+        type: string
+      - name: footer_credit
+        label: Footer line
+        type: string
