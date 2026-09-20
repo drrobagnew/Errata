@@ -1,74 +1,68 @@
-# Errata — London's Queerest Choir
+# errata.studio
 
-Official website for Errata, London's Queerest Choir.
+The Errata website. It is a plain static site built by GitHub Pages from this
+repository. Every push to `main` rebuilds and publishes the live site within a
+minute or two.
 
-## 🌐 Live Site
+## Editing without touching code
 
-Hosted on GitHub Pages at: `https://[your-username].github.io/errata`
+Go to **app.pagescms.org**, sign in with GitHub, and open the `errata` repo.
+Pages CMS reads `.pages.yml` in this repo and turns the files below into forms.
 
-## 📁 Files
+| In Pages CMS | What it edits | File here |
+|---|---|---|
+| Home page | Every block of text and every photo on the front page | `index.html` |
+| Events | The Upcoming Events list | `_events/` |
+| Pages | Extra standalone pages | `pages/` |
+| Site settings | Choir name, tagline, email, Instagram | `_data/site.yml` |
+| Media | Photo library | `images/` |
 
-- `index.html` — Main HTML page
-- `style.css` — All styles
-- `script.js` — Navigation, animations, form handling
+Saving in Pages CMS commits to `main`, which republishes the site.
 
-## 🚀 Deploying to GitHub Pages
+### Adding an event
 
-1. **Create a new repository** on GitHub called `errata` (or any name you like)
+Events → Add. The date field decides everything: the card shows the month and
+day, the list is sorted by date, and an event disappears from the site by itself
+the day after it happens. "Show on a black background" makes one card stand out.
 
-2. **Push these files** to the `main` branch:
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial site"
-   git branch -M main
-   git remote add origin https://github.com/YOUR_USERNAME/errata.git
-   git push -u origin main
-   ```
+### Adding a page
 
-3. **Enable GitHub Pages**:
-   - Go to your repo → Settings → Pages
-   - Under "Source", select `main` branch and `/ (root)` folder
-   - Click Save
-   - Your site will be live at `https://YOUR_USERNAME.github.io/errata` within a few minutes
+Pages → Add. Give it a title and write the text. Turn on **Show in menu** to add
+it to the menu at the top and bottom of the site; **Position in the menu** orders
+it against the other added pages. Leave it off and the page still exists at its
+own address, it is just not linked from anywhere.
 
-## ✏️ Customising
+### Adding a photo
 
-### Update contact details
-In `index.html`, search for `hello@errataschoir.co.uk` and replace with your real email.
+Home page → Section: Gallery → Photos → Add. Upload the picture and write a
+short description of it (that description is what a blind visitor's screen
+reader reads out). Photos are stored in `images/`.
 
-### Update social links
-Search for `@errataschoir` in `index.html` and update the Instagram/Twitter handles.
+Resize big photos before uploading — anything wider than about 1600 pixels is
+larger than the site can use and only makes the page slow to load.
 
-### Add events
-Find the `events-grid` div in `index.html` and update the event cards with real dates and details.
+## What is where
 
-### Update the stats
-Find `stat-num` spans in the About section and fill in real numbers.
-
-### Add gallery photos
-Replace the `.gallery-placeholder` divs with real `<img>` tags:
-```html
-<div class="gallery-item">
-  <img src="photos/rehearsal.jpg" alt="Errata rehearsal" />
-</div>
+```
+index.html        front page: all its text and photos live in the header block
+_data/site.yml    choir name, tagline, contact details
+_events/          one file per event
+pages/            one file per extra page
+images/           photos
+_layouts/         the page templates (structure)
+_includes/        the ERRATA wordmark, used in three places
+style.css         all the styling
+script.js         menu, fade-ins, and hiding events that have passed
+_config.yml       build settings
+.pages.yml        tells Pages CMS which fields to show
+CNAME             the custom domain
 ```
 
-### Custom domain
-To use a custom domain (e.g. `errataschoir.co.uk`):
-1. Add a `CNAME` file to the repo containing just your domain name
-2. Configure your domain's DNS to point to GitHub Pages
-3. Set the custom domain in repo Settings → Pages
+## Editing by hand instead
 
-## 🎨 Colours
+Any file can be edited straight on github.com: open it, press the pencil icon,
+change the text, then "Commit changes". The same rebuild happens.
 
-- Magenta `#d4006b` — primary brand
-- Ink `#0f0e0d` — text/dark
-- Cream `#f5f0e8` — background
-- Gold `#d4a200` — accent
-- Teal `#007a6b` — EDI section
-- Purple `#5b0d8f` — Join section
-
-## 💌 Contact
-
-Update `hello@errataschoir.co.uk` throughout the site with your real contact address.
+The wordmark is in `_includes/wordmark.html` and appears in the top bar, the
+hero and the footer. The mirrored red R is the third letter; `.r-flip` in
+`style.css` flips it and corrects the spacing that flipping throws out.

@@ -1,0 +1,159 @@
+---
+layout: default
+---
+  <header class="hero" id="hero">
+    <div class="hero-top">
+      <div class="hero-left">
+        <span class="hero-eyebrow">{{ page.hero.eyebrow }}</span>
+        <h1 class="hero-title">{% include wordmark.html %}</h1>
+        <p class="hero-sub">{{ page.hero.subtitle }}</p>
+        <div class="hero-ctas">
+          <a href="{{ page.hero.primary_cta_link }}" class="btn btn-primary">{{ page.hero.primary_cta_label }}</a>
+          <a href="{{ page.hero.secondary_cta_link }}" class="btn btn-outline-light">{{ page.hero.secondary_cta_label }}</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <p class="hero-right-label">{{ page.hero.right_label }}</p>
+        <p class="hero-slogan">{{ page.hero.slogan | newline_to_br }}</p>
+        <a href="{{ page.hero.right_cta_link }}" class="btn btn-outline-light">{{ page.hero.right_cta_label }} &rarr;</a>
+      </div>
+    </div>
+    <div class="hero-bottom-bar">
+      {% for item in page.bar_items %}<span>{{ item }}</span>
+      {% unless forloop.last %}<span class="sep">&#10022;</span>
+      {% endunless %}{% endfor %}
+    </div>
+  </header>
+
+  <div class="marquee-strip" aria-hidden="true">
+    <div class="marquee-track">
+      {% for i in (1..6) %}{% for item in page.marquee_items %}<span>{{ item }}</span><span class="sep">&#9670;</span>
+      {% endfor %}{% endfor %}
+    </div>
+  </div>
+
+  <section class="about" id="about">
+    <div class="about-inner">
+      <div class="about-text-block">
+        <span class="section-label">{{ page.about.label }}</span>
+        <h2>{{ page.about.heading | newline_to_br }}</h2>
+        <p class="lead">{{ page.about.lead }}</p>
+        {{ page.about.body | markdownify }}
+        <div class="stats-row">
+          {% for stat in page.about.stats %}<div class="stat"><span class="stat-num">{{ stat.number }}</span><span class="stat-label">{{ stat.label }}</span></div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="about-visual-block">
+        <p class="about-pull-quote">{{ page.about.pull_quote }}</p>
+        <div class="about-definition">
+          <strong>{{ page.about.definition_term }}</strong>
+          {{ page.about.definition_body | newline_to_br }}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% assign events = site.events | sort: "date" %}
+  <section class="section events" id="events">
+    <div class="container">
+      <span class="section-label light">{{ page.events.label }}</span>
+      <h2>{{ page.events.heading }}</h2>
+      {% if events.size > 0 %}<div class="events-grid" id="eventsGrid">
+        {% for e in events %}<article class="event-card{% if e.featured %} event-featured{% endif %}" data-date="{{ e.date | date: '%Y-%m-%d' }}">
+          <div class="event-date-block">
+            <span class="event-month">{{ e.date | date: "%b" }}</span>
+            <span class="event-day">{{ e.date | date: "%-d" }}</span>
+          </div>
+          <div class="event-info">
+            {% if e.tag %}<span class="event-tag">{{ e.tag }}</span>{% endif %}
+            <h3>{{ e.title }}</h3>
+            {% if e.summary %}<p>{{ e.summary }}</p>{% endif %}
+            <p class="event-location">{{ e.venue }}{% if e.time %} &middot; {{ e.time }}{% endif %}</p>
+            {% if e.link and e.link != "" %}<p><a class="event-link" href="{{ e.link }}">{{ e.link_label | default: "Tickets &amp; details" }} &rarr;</a></p>{% endif %}
+          </div>
+        </article>
+        {% endfor %}
+      </div>{% endif %}
+      <p class="events-note" id="eventsNote"{% if events.size > 0 %} hidden{% endif %}>{{ page.events.empty_note }}</p>
+    </div>
+  </section>
+
+  <section class="section edi" id="edi">
+    <div class="container">
+      <div class="edi-header">
+        <span class="section-label">{{ page.edi.label }}</span>
+        {% assign edi_heading = page.edi.heading | newline_to_br %}
+        {% if page.edi.highlight and page.edi.highlight != "" %}{% capture edi_span %}<span>{{ page.edi.highlight }}</span>{% endcapture %}{% assign edi_heading = edi_heading | replace: page.edi.highlight, edi_span %}{% endif %}
+        <h2>{{ edi_heading }}</h2>
+        <p class="lead" style="max-width:600px;margin:0 auto;">{{ page.edi.lead }}</p>
+      </div>
+      <div class="edi-grid">
+        {% for card in page.edi.cards %}<div class="edi-card">
+          <div class="edi-icon">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</div>
+          <h3>{{ card.title }}</h3>
+          <p>{{ card.text }}</p>
+        </div>
+        {% endfor %}
+      </div>
+      <p class="edi-footer">{{ page.edi.footer_note }}</p>
+    </div>
+  </section>
+
+  <section class="section gallery" id="gallery">
+    <div class="container">
+      <span class="section-label">{{ page.gallery.label }}</span>
+      <h2>{{ page.gallery.heading }}</h2>
+      <p class="gallery-intro">{{ page.gallery.intro }}</p>
+      <div class="gallery-grid">
+        {% for photo in page.gallery.images %}{% assign slot = forloop.index0 | modulo: 6 | plus: 1 %}<div class="gallery-placeholder gp-{{ slot }}">
+          <img src="{{ photo.image | relative_url }}" alt="{{ photo.caption }}" loading="lazy" />
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="section join" id="join">
+    <div class="container">
+      <div class="join-inner-single">
+        <span class="section-label light">{{ page.join.label }}</span>
+        {% assign join_heading = page.join.heading | newline_to_br %}
+        {% if page.join.highlight and page.join.highlight != "" %}{% capture join_span %}<span>{{ page.join.highlight }}</span>{% endcapture %}{% assign join_heading = join_heading | replace: page.join.highlight, join_span %}{% endif %}
+        <h2>{{ join_heading }}</h2>
+        <p class="lead">{{ page.join.lead }}</p>
+        <ul class="join-list">
+          {% for row in page.join.details %}<li><strong>{{ row.label }}:</strong> {{ row.value }}</li>
+          {% endfor %}
+        </ul>
+        <a href="{{ page.join.cta_link }}" class="btn btn-primary">{{ page.join.cta_label }}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section contact" id="contact">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-left">
+          <span class="section-label">{{ page.contact.label }}</span>
+          <h2>{{ page.contact.heading }}</h2>
+          <p>{{ page.contact.intro }}</p>
+          <div class="contact-list">
+            <a href="mailto:{{ site.data.site.email }}" class="contact-item">
+              <span class="contact-icon">@</span>
+              <span>{{ site.data.site.email }}</span>
+            </a>
+            <a href="{{ site.data.site.instagram_url }}" class="contact-item" target="_blank" rel="noopener">
+              <span class="contact-icon">IG</span>
+              <span>@{{ site.data.site.instagram_handle }}</span>
+            </a>
+          </div>
+        </div>
+        <div class="contact-right">
+          <h3>{{ page.contact.booking_heading }}</h3>
+          <p>{{ page.contact.booking_text }}</p>
+          <a href="mailto:{{ site.data.site.email }}" class="btn btn-outline-light" style="position:relative;z-index:1;">{{ page.contact.booking_cta_label }}</a>
+        </div>
+      </div>
+    </div>
+  </section>

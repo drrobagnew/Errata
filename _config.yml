@@ -1,0 +1,21 @@
+# Build settings for the Errata website.
+# There is nothing here you need to edit day to day — the text of the site
+# lives in index.html, the pages folder, the _events folder and _data/site.yml.
+
+url: https://errata.studio
+
+collections:
+  events:
+    output: false
+
+defaults:
+  - scope:
+      path: "pages"
+    values:
+      layout: page
+
+exclude:
+  - README.md
+  - .pages.yml
+  - Gemfile
+  - Gemfile.lock
